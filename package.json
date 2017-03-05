@@ -43,7 +43,7 @@
     "karma-spec-reporter": "0.0.30",
     "karma-webpack": "2.x.x",
     "phantomjs": "2.x.x",
-    "webpack": "^2.2.1",
+    "webpack": "^2.x.x",
     "webpack-dev-server": "^2.4.1"
   },
   "engines": {
