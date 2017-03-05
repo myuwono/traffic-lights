@@ -29,8 +29,8 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "html-webpack-plugin": "^1.6.1",
-    "isparta": "^3.0.4",
-    "isparta-instrumenter-loader": "^1.0.1",
+    "isparta": "^4.0.0",
+    "isparta-loader": "^2.0.0",
     "jasmine": "2.x.x",
     "jasmine-core": "2.x.x",
     "karma": "0.x.x",
@@ -43,7 +43,7 @@
     "karma-spec-reporter": "0.0.30",
     "karma-webpack": "2.x.x",
     "phantomjs": "2.x.x",
-    "webpack": "^2.x.x",
+    "webpack": "^2.2.0",
     "webpack-dev-server": "^2.4.1"
   },
   "engines": {

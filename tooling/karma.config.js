@@ -32,7 +32,7 @@ module.exports = function(config) {
               /node_modules/,
               /\.spec\.js/
             ],
-            loader: 'isparta-instrumenter-loader'
+            loader: 'isparta-loader'
           },
           {
             test: /(\.jsx|\.js)$/,
