@@ -1,12 +1,14 @@
 import TrafficLight from '../../src/components/TrafficLight'
-import mount from 'enzyme'
+import {shallow} from 'enzyme'
 import React from 'react'
 
 describe('TrafficLight', () => {
 
   it('should render a div with .trafficlight.{name}.{light} classes', () => {
-    const trafficLight = mount(<TrafficLight name="N" light="green" />)
-    expect(trafficLight.find(".trafficlight.N.green").exists())
+    let name = "N"
+    let light = "green" 
+    const trafficLight = shallow(<TrafficLight name={name} light={light} />)
+    expect(trafficLight.find(`.trafficlight.${name}.${light}`).exists())
   });
 
 });
