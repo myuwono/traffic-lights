@@ -44,6 +44,11 @@ module.exports = function(config) {
             }
           }
         ]
+      },
+      externals: {
+        'react/addons': true,
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true
       }
     },
     webpackServer: {
