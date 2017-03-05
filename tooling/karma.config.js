@@ -1,16 +1,15 @@
 var path = require('path');
-var webpackConfig = require('./webpack.config')
 
 module.exports = function(config) {
   config.set({
     browsers: ['PhantomJS'],
     files: [
-      '../test/**/*.spec.js'
+      '../test/**/*.spec.+(js|jsx)',
     ],
     frameworks: ['jasmine'],
     preprocessors: {
-      '../src/**/!(*spec).js': ['babel', 'sourcemap', 'coverage'],
-      '../test/**/*.spec.js': ['webpack']
+      '../src/**/!(*spec).+(js|jsx)': ['babel', 'sourcemap', 'coverage'],
+      '../test/**/*.spec.+(js|jsx)': ['webpack']
     },
     specReporter: {
       maxLogLines: 5,         // limit number of lines logged per test
@@ -23,6 +22,9 @@ module.exports = function(config) {
     reporters: ['spec', 'coverage'],
     singleRun: true,
     webpack: {
+      resolve: {
+        extensions: ['.js', '.jsx']
+      },
       module: {
         rules: [
           {
@@ -33,6 +35,19 @@ module.exports = function(config) {
               /\.spec\.js/
             ],
             loader: 'isparta-loader'
+          },
+          {
+            enforce: 'pre',
+            test: /(\.jsx|\.js)$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader',
+            options: {
+              eslint: {
+                configFile: path.resolve(__dirname, '../.eslintrc.json'),
+                cache: false
+              },
+              failOnError: true
+            }
           },
           {
             test: /(\.jsx|\.js)$/,
