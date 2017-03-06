@@ -5,18 +5,18 @@ import TrafficLightController from
 import TrafficLight from '../../src/components/TrafficLight';
 
 describe('TrafficLightController', () => {
-  var timerCallback;
+  let timerCallback;
 
-  beforeEach(function() {
+  beforeEach(() => {
     timerCallback = jasmine.createSpy("timerCallback");
     jasmine.clock().install();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
   });
 
-  it('should render the expected traffic lights to the DOM', function() {
+  it('should render the expected traffic lights to the DOM', () => {
     const trafficLightController = mount(
       <TrafficLightController period={500} yellowInterval={1} />);
     let trafficLights = trafficLightController.find(TrafficLight);
