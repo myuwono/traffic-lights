@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: [
     "babel-polyfill",
-    path.resolve(__dirname, '../src/app.js')
+    path.resolve(__dirname, '../src/app.jsx')
   ],
   output: {
     path: path.resolve(__dirname, '../build/public'),
@@ -23,6 +23,9 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+      extensions: ['.js', '.jsx']
   },
   plugins: [
     new HtmlWebpackPlugin({
