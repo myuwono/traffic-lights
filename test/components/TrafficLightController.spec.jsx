@@ -5,10 +5,8 @@ import TrafficLightController from
 import TrafficLight from '../../src/components/TrafficLight';
 
 describe('TrafficLightController', () => {
-  let timerCallback;
 
   beforeEach(() => {
-    timerCallback = jasmine.createSpy("timerCallback");
     jasmine.clock().install();
   });
 
@@ -18,7 +16,7 @@ describe('TrafficLightController', () => {
 
   it('should render the expected traffic lights to the DOM', () => {
     const trafficLightController = mount(
-      <TrafficLightController period={500} yellowInterval={1} />);
+      <TrafficLightController period={5} yellowInterval={1} />);
     let trafficLights = trafficLightController.find(TrafficLight);
     let expectedTrafficLights = [
       <TrafficLight name="N" light="Green" />,
@@ -29,5 +27,15 @@ describe('TrafficLightController', () => {
     expect(trafficLights.length).toEqual(4);
     expectedTrafficLights.forEach(trafficLight =>
         expect(trafficLights.contains(trafficLight)).toBeTruthy());
+  });
+
+  it('should call tick every 1000 milliseconds', () => {
+    const trafficLightController = mount(
+      <TrafficLightController period={5} yellowInterval={1} />);
+    let instance = trafficLightController.instance();
+    spyOn(instance, 'tick');
+    expect(instance.tick).not.toHaveBeenCalled();
+    jasmine.clock().tick(1001);
+    expect(instance.tick).toHaveBeenCalled();
   });
 });
