@@ -22,17 +22,17 @@ export default class TrafficLightController extends React.Component {
   }
 
     componentDidMount() {
-      this.timerID = setInterval(() => this.tick(), 1000);
+      this.timerID = setInterval(() => this.updateTrafficLights(), 1000);
     }
 
     componentWillUnmount() {
       clearInterval(this.timerID);
     }
 
-    threshold = this.props.period - this.props.yellowInterval;
+    threshold = this.props.intervalSeconds - this.props.yellowIntervalSeconds;
 
-    tick() {
-      let normalizedCount = this.state.counter % this.props.period;
+    updateTrafficLights() {
+      let normalizedCount = this.state.counter % this.props.intervalSeconds;
 
       let updatedState = { ... this.state,
         counter: normalizedCount + 1
@@ -40,11 +40,11 @@ export default class TrafficLightController extends React.Component {
       for(let name in this.state.lights) {
         let current = this.state.lights[name];
         if (current === states.GREEN && normalizedCount >= this.threshold) {
-            updatedState.lights[name] = states.YELLOW;
+          updatedState.lights[name] = states.YELLOW;
         } else if (current === states.YELLOW && normalizedCount == 0) {
-            updatedState.lights[name] = states.RED;
+          updatedState.lights[name] = states.RED;
         } else if (current === states.RED && normalizedCount == 0) {
-            updatedState.lights[name] = states.GREEN;
+          updatedState.lights[name] = states.GREEN;
         }
       }
       this.setState(updatedState);
@@ -59,6 +59,6 @@ export default class TrafficLightController extends React.Component {
 }
 
 TrafficLightController.propTypes = {
-    period: React.PropTypes.number.isRequired,
-    yellowInterval: React.PropTypes.number.isRequired
+    intervalSeconds: React.PropTypes.number.isRequired,
+    yellowIntervalSeconds: React.PropTypes.number.isRequired
 };
