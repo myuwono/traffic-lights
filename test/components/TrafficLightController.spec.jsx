@@ -16,7 +16,7 @@ describe('TrafficLightController', () => {
 
   it('should render the expected traffic lights to the DOM', () => {
     const trafficLightController = mount(
-      <TrafficLightController period={5} yellowInterval={1} />);
+      <TrafficLightController intervalSeconds={5} yellowIntervalSeconds={1} />);
     let trafficLights = trafficLightController.find(TrafficLight);
     let expectedTrafficLights = [
       <TrafficLight name='N' light='Green' />,
@@ -31,7 +31,7 @@ describe('TrafficLightController', () => {
 
   it('should display counter and update it every 1000 milliseconds', () => {
     const trafficLightController = mount(
-      <TrafficLightController period={3} yellowInterval={1} />);
+      <TrafficLightController intervalSeconds={3} yellowIntervalSeconds={1} />);
     expect(trafficLightController.find('h2').text()).toEqual('Counter=1');
     jasmine.clock().tick(1001);
     expect(trafficLightController.find('h2').text()).toEqual('Counter=2');
@@ -44,7 +44,10 @@ describe('TrafficLightController', () => {
   it('should update light state from red -> green', () => {
     const period = 5;
     const trafficLightController = mount(
-      <TrafficLightController period={period} yellowInterval={1} />);
+      <TrafficLightController
+        intervalSeconds={period}
+        yellowIntervalSeconds={1}
+      />);
     expect(trafficLightController.contains(
       <TrafficLight name='E' light='Red' />)).toBeTruthy();
     expect(trafficLightController.contains(
@@ -62,8 +65,8 @@ describe('TrafficLightController', () => {
     const yellowInterval = 3;
     const trafficLightController = mount(
       <TrafficLightController
-        period={period}
-        yellowInterval={yellowInterval}
+        intervalSeconds={period}
+        yellowIntervalSeconds={yellowInterval}
       />);
     expect(trafficLightController.contains(
       <TrafficLight name='N' light='Green' />)).toBeTruthy();
@@ -99,7 +102,7 @@ describe('TrafficLightController', () => {
     spyOn(window, 'setInterval');
     spyOn(window, 'clearInterval');
     const trafficLightController = mount(
-      <TrafficLightController period={5} yellowInterval={3} />);
+      <TrafficLightController intervalSeconds={5} yellowIntervalSeconds={3} />);
     expect(window.setInterval).toHaveBeenCalled();
     trafficLightController.unmount();
     expect(window.clearInterval).toHaveBeenCalled();
