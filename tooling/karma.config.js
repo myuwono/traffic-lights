@@ -4,11 +4,11 @@ module.exports = function(config) {
   config.set({
     browsers: ['PhantomJS'],
     files: [
-      '../test/**/*.spec.+(js|jsx)',
+      '../test/**/*.spec.+(js|jsx)'
     ],
     frameworks: ['jasmine'],
     preprocessors: {
-      '../src/**/!(*spec).+(js|jsx)': ['babel', 'sourcemap', 'coverage'],
+      '../src/**/!(*spec).+(js|jsx)': ['webpack', 'coverage'],
       '../test/**/*.spec.+(js|jsx)': ['webpack']
     },
     specReporter: {
@@ -22,41 +22,37 @@ module.exports = function(config) {
     reporters: ['spec', 'coverage'],
     singleRun: true,
     webpack: {
+      devtool: "sourcemap",
       resolve: {
         extensions: ['.js', '.jsx']
       },
       module: {
         rules: [
           {
-            enforce: 'pre', 
-            test: /\.jsx?$/,
-            exclude: [
-              /node_modules/,
-              /\.spec\.js/
-            ],
-            loader: 'isparta-loader'
-          },
-          {
-            enforce: 'pre',
-            test: /(\.jsx|\.js)$/,
-            exclude: /node_modules/,
-            loader: 'eslint-loader',
-            options: {
-              eslint: {
-                configFile: path.resolve(__dirname, '../.eslintrc.json'),
-                cache: false
-              },
-              failOnError: true
-            }
-          },
-          {
             test: /(\.jsx|\.js)$/,
             exclude: /(node_modules|bower_components)/,
-            include: path.resolve(__dirname, '../test'),
+            include: [
+              path.resolve(__dirname, '../src'),
+              path.resolve(__dirname, '../test'),
+            ],
             loader: 'babel-loader',
             options: {
-              presets: ['react', 'es2015', 'stage-0']
+              presets: ['react', 'es2015', 'stage-0'],
+              env: {
+                test: {
+                  plugins: [ "istanbul", {
+                    useInlineSourceMaps: false
+                  }]
+                }
+              }
             }
+          },
+          {
+            enforce: 'post',
+            test: /\.js/,
+            include: path.resolve(__dirname, '../src'),
+            exclude: /(node_modules)/,
+            loader: 'istanbul-instrumenter-loader'
           }
         ]
       },
@@ -70,14 +66,11 @@ module.exports = function(config) {
       noInfo: true,
     },
     coverageReporter: {
-      instrumenters: {isparta: require('isparta')},
-			instrumenter: {
-				'src/**/*.js': 'isparta'
-			},
       dir: '../build/coverage/',
       reporters: [
         { type: 'html', subdir: 'html' }, 
-        { type: 'lcov', subdir: 'lcov' }
+        { type: 'lcov', subdir: 'lcov' },
+        { type: 'text' }
       ] 
     }
   });
