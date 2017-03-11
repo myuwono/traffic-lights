@@ -29,6 +29,19 @@ module.exports = function(config) {
       module: {
         rules: [
           {
+            enforce: 'pre',
+            test: /(\.jsx|\.js)$/,
+            exclude: /node_modules/,
+            loader: 'eslint-loader',
+            options: {
+              eslint: {
+                configFile: path.resolve(__dirname, '../.eslintrc.json'),
+                cache: false
+              },
+              failOnError: true
+            }
+          },
+          {
             test: /(\.jsx|\.js)$/,
             exclude: /(node_modules|bower_components)/,
             include: [
@@ -38,6 +51,8 @@ module.exports = function(config) {
             loader: 'babel-loader',
             options: {
               presets: ['react', 'es2015', 'stage-0'],
+              auxiliaryCommentBefore: ' istanbul ignore next ',
+              plugins: ["transform-runtime"],
               env: {
                 test: {
                   plugins: [ "istanbul", {
