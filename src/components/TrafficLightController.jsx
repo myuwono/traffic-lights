@@ -10,52 +10,55 @@ const states = {
 export default class TrafficLightController extends React.Component {
   constructor(props) {
     super(props);
-      this.state = {
-        counter: 1,
-        lights: {
-          N: states.GREEN,
-          S: states.GREEN,
-          E: states.RED,
-          W: states.RED
-        }
-      };
+    this.state = {
+      counter: 1,
+      lights: {
+        N: states.GREEN,
+        S: states.GREEN,
+        E: states.RED,
+        W: states.RED
+      }
+    };
+    this.threshold =
+      this.props.intervalSeconds - this.props.yellowIntervalSeconds;
   }
 
-    componentDidMount() {
-      this.timerID = setInterval(() => this.updateTrafficLights(), 1000);
-    }
+  componentDidMount() {
+    this.timerID = setInterval(() => this.updateTrafficLights(), 1000);
+  }
 
-    componentWillUnmount() {
-      clearInterval(this.timerID);
-    }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
-    threshold = this.props.intervalSeconds - this.props.yellowIntervalSeconds;
+  updateTrafficLights() {
+    let normalizedCount = this.state.counter % this.props.intervalSeconds;
 
-    updateTrafficLights() {
-      let normalizedCount = this.state.counter % this.props.intervalSeconds;
-
-      let updatedState = { ... this.state,
-        counter: normalizedCount + 1
-      };
-      for(let name in this.state.lights) {
-        let current = this.state.lights[name];
-        if (current === states.GREEN && normalizedCount >= this.threshold) {
-          updatedState.lights[name] = states.YELLOW;
-        } else if (current === states.YELLOW && normalizedCount == 0) {
-          updatedState.lights[name] = states.RED;
-        } else if (current === states.RED && normalizedCount == 0) {
-          updatedState.lights[name] = states.GREEN;
-        }
+    let updatedState = { ... this.state,
+      counter: normalizedCount + 1
+    };
+    for(let name in this.state.lights) {
+      let current = this.state.lights[name];
+      if (current === states.GREEN && normalizedCount >= this.threshold) {
+        updatedState.lights[name] = states.YELLOW;
+      } else if (current === states.YELLOW && normalizedCount == 0) {
+        updatedState.lights[name] = states.RED;
+      } else if (current === states.RED && normalizedCount == 0) {
+        updatedState.lights[name] = states.GREEN;
       }
-      this.setState(updatedState);
     }
+    this.setState(updatedState);
+  }
 
-    render = () =>
+  render() {
+    return (
       <div>
         <h2>Counter={this.state.counter}</h2>
         {Object.keys(this.state.lights).map(k =>
           <TrafficLight key={k} name={k} light={this.state.lights[k]} />)}
       </div>
+    );
+  }
 }
 
 TrafficLightController.propTypes = {
