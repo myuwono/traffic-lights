@@ -8,6 +8,8 @@ A simple traffic light simulation using React.
 
 Tools: Babel(ES6), React, Webpack, Karma, Jasmine, Enzyme, Isparta (for code coverage).
 
+Check out the [online demo](https://jsfiddle.net/myuwono/ctk77rkk/).
+
 ## Quick Start
 
 - Install the dependencies
