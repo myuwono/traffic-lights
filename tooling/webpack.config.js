@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -9,7 +10,9 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, '../build/public'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    chunkFilename: 'bundle.chunk.js',
+    publicPath: './'
   },
   module: {
     rules: [

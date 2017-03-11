@@ -22,12 +22,19 @@ module.exports = function(config) {
     reporters: ['spec', 'coverage'],
     singleRun: true,
     webpack: {
-      devtool: "sourcemap",
+      devtool: 'inline-source-map',
       resolve: {
         extensions: ['.js', '.jsx']
       },
       module: {
         rules: [
+          {
+            enforce: 'pre',
+            test: /(\.jsx|\.js)$/,
+            include: path.resolve(__dirname, '../src'),
+            exclude: /(node_modules)/,
+            loader: 'isparta-loader'
+          },
           {
             enforce: 'pre',
             test: /(\.jsx|\.js)$/,
@@ -52,22 +59,8 @@ module.exports = function(config) {
             options: {
               presets: ['react', 'es2015', 'stage-0'],
               auxiliaryCommentBefore: ' istanbul ignore next ',
-              plugins: ["transform-runtime"],
-              env: {
-                test: {
-                  plugins: [ "istanbul", {
-                    useInlineSourceMaps: false
-                  }]
-                }
-              }
+              plugins: ["transform-runtime"]
             }
-          },
-          {
-            enforce: 'post',
-            test: /\.js/,
-            include: path.resolve(__dirname, '../src'),
-            exclude: /(node_modules)/,
-            loader: 'istanbul-instrumenter-loader'
           }
         ]
       },

@@ -1,12 +1,5 @@
 {
   "presets": ["react", "es2015", "stage-0"],
   "plugins": ["transform-runtime"],
-  "auxiliaryCommentBefore": " istanbul ignore next ",
-  "env": {
-    "test": {
-      "plugins": [ "istanbul", {
-        "useInlineSourceMaps": false
-      }]
-    }
-  }
+  "auxiliaryCommentBefore": " istanbul ignore next "
 }
